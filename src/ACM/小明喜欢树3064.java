@@ -11,26 +11,26 @@ public class 小明喜欢树3064 {
         for (int i = 0; i <= n; i++) {
             adj[i] = new ArrayList<>();
         }
-        for (int i = 0; i < n; i++) {
-            int u = sc.nextInt();
-            int v = sc.nextInt();
-            adj[u].add(v);
+        int[] weight = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            int u = sc.nextInt(); // 第一个是0
+            int w = sc.nextInt();
+            adj[u].add(i); // 第一个子节点是1
+            weight[i] = w;
         }
-        System.out.println(adj[1]);
         Queue<Integer> queue = new LinkedList<>();
         queue.add(0);
         List<Integer> res = new ArrayList<>();
         while (!queue.isEmpty()){
             int curNum = queue.size();
+            int curMax = 0;
             for (int i = 0; i < curNum; i++) {
-                Integer curNode = queue.poll();
-                if(curNode > n) continue;
-                if(adj[curNode] == null) continue;
-                for (Integer sonNode : adj[curNode]) {
-                    if(sonNode != null)queue.add(sonNode);
-                }
+                Integer fa = queue.poll();
+                if(weight[fa] > curMax) curMax = weight[fa];
+                if(adj[fa].size() == 0) continue;
+                queue.addAll(adj[fa]);
             }
-            res.add(curNum);
+            if(curMax > 0) res.add(curMax);
         }
         for (Integer level : res) {
             System.out.print(level + " ");
